@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>EventEmitter | amilyang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="面试题中通常会问到父子组件传值的问题， 父组件自定义事件（on），子组件监听自定义事件（emit），都会进一步问是否可以手动实现一个EvntEmmiter 刷到这儿了，就来了解一下 class Event {   constructor() {     this.events &#x3D; Object.create(null);   }   on(name, fn) {     if (!this.eve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EventEmitter">
+<meta property="og:url" content="http://yoursite.com/2020/04/29/EventEmitter/index.html">
+<meta property="og:site_name" content="amilyang">
+<meta property="og:description" content="面试题中通常会问到父子组件传值的问题， 父组件自定义事件（on），子组件监听自定义事件（emit），都会进一步问是否可以手动实现一个EvntEmmiter 刷到这儿了，就来了解一下 class Event {   constructor() {     this.events &#x3D; Object.create(null);   }   on(name, fn) {     if (!this.eve">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/.com//observer-pub-sub.jpg">
+<meta property="article:published_time" content="2020-04-29T04:34:09.000Z">
+<meta property="article:modified_time" content="2020-05-07T07:22:14.248Z">
+<meta property="article:author" content="amilyang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/.com//observer-pub-sub.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="amilyang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">amilyang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">经验在于总结</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-EventEmitter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/29/EventEmitter/" class="article-date">
+  <time datetime="2020-04-29T04:34:09.000Z" itemprop="datePublished">2020-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      EventEmitter
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>面试题中通常会问到父子组件传值的问题， 父组件自定义事件（on），子组件监听自定义事件（emit），都会进一步问是否可以手动实现一个EvntEmmiter</p>
+<p>刷到这儿了，就来了解一下</p>
+<pre><code>class Event {
+  constructor() {
+    this.events = Object.create(null);
+  }
+  on(name, fn) {
+    if (!this.events[name]) {
+      this.events[name] = []
+    }
+    this.events[name].push(fn);
+    return this;
+  }
+  emit(name, ...args) {
+    if (!this.events[name]) {
+        return this;
+    }
+    const fns = this.events[name]
+    fns.forEach(fn =&gt; fn.call(this, ...args))
+    return this;
+  }
+  off(name,fn) {
+    if (!this.events[name]) {
+        return this;
+    }
+    if (!fn) {
+      this.events[name] = null
+      return this
+    }
+    const index = this.events[name].indexOf(fn);
+    this.events[name].splice(index, 1);
+    return this;
+  }
+  once(name,fn) {
+    const only = () =&gt; {
+      fn.apply(this, arguments);
+      this.off(name, only);
+    };
+    this.on(name, only);
+    return this;
+  }
+}</code></pre><p>刷到的代码是这样的，刚看的时候，我看没去看 this， 箭头函数这部分内容，或者说之前都是仅限于使用，在明白了this的绑定规则 和 箭头函数的使用后，又琢磨这段代码中的this指的是什么，为什么要返回this，是和jquery中的链式操作一样的吗？ 带着这些疑问，我进行了代码测试，并且自己也跟着写了一遍。整理如下：</p>
+<ol>
+<li><p>这里return this确实是和jquery中的return this一样，返回了<br>Event对象，所以这里可以使用链式操作。</p>
+</li>
+<li><p>这里使用Object.create(null)来赋值， 而不是{},  也是我好奇的一部分，其他大牛给出的答案是这种情况下我们需要一个非常干净且高度可以定制的对象当作数据字典。具体原因我会再整理一篇关于Object.create()的用法</p>
+</li>
+<li><p>在我学到 this 和 箭头函数时，里面有介绍过，说箭头函数没有自己的this， 它使用的是外层代码块的this ，另外 箭头函数中是没有arguments 这个参数的，可以用rest参数代替， 而上面的代码中在箭头函数中使用的arguments是沿着作用域链向上查找的父作用域中的aruments，这里的arguments的值是{0: myevent, 1: Funtion}, 这里取到的 arguments并不是我们想要用的参数列表，所以应该在箭头函数中使用rest参数，这样就能获取到fn当中的参数了，这里的a ，b，正确代码如下</p>
+</li>
+<li><p>这里也多次使用到了call和apply来显式的绑定this，并传入参数</p>
+<p>class Event {<br> constructor() {<br>   this.events = Object.create(null);<br> }<br> on(name, fn) {<br>   if (!this.events[name]) {</p>
+<pre><code>this.events[name] = []</code></pre><p>   }<br>   this.events[name].push(fn);<br>   return this;<br> }<br> emit(name, …args) {<br>   if (!this.events[name]) {</p>
+<pre><code>return this;</code></pre><p>   }<br>   const fns = this.events[name]<br>   fns.forEach(fn =&gt; fn.call(this, …args))<br>   return this;<br> }<br> off(name,fn) {<br>   if (!this.events[name]) {</p>
+<pre><code>return this;</code></pre><p>   }<br>   if (!fn) {</p>
+<pre><code>this.events[name] = null
+return this</code></pre><p>   }<br>   const index = this.events[name].indexOf(fn);<br>   this.events[name].splice(index, 1);<br>   return this;<br> }<br> once(name,fn) {<br>   const only = (…args) =&gt; { // a， b</p>
+<pre><code>fn.apply(this, args);
+this.off(name, only);</code></pre><p>   };<br>   this.on(name, only);<br>   return this;<br> }<br>}</p>
+<p>var instance = new Event()<br>instance.once(‘myevent’, function (a, b){<br> console.log(a, b)<br> return a + b<br>}).emit(‘myevent’,1,2)</p>
+</li>
+</ol>
+<p>在Vue中不同组件之间的通讯。有一种解决方法叫 <strong>Event Bus</strong>，这其实就是发布订阅模式的实现，非常简单好用。</p>
+<pre><code>// bus.js
+export default new Vue();
+
+//使用$on监听
+import Bus from &apos;../bus.js&apos;
+
+export default{
+  created() {
+    Bus.$on(&apos;fulfilled&apos;, text =&gt; {
+      this.status = &apos;fulfilled&apos;
+    })
+  }
+}
+
+// 使用$emit触发事件
+fetch(&apos;/data.json&apos;).then((res) =&gt; {
+  return res.json
+}).then(() =&gt; {
+  Bus.$emit(&apos;fulfilled&apos;, &apos;已成功&apos;)
+}).catch(() =&gt; {
+  Bus.$emit(&apos;resolved&apos;, &quot;出错&quot;)
+})</code></pre><p>Vue事件相关接口：<br>on， emit， once， off</p>
+<p>使用Event Bus 进行跨组件消息传递很棒，但是，当事件非常多的时候，Event Bus上的事件就会难以维护，这与使用全局变量是一样的，变量能局部的，就尽量不放到全局，同样Event bus上的事件也是越少越好。</p>
+<h2 id="发布订阅模式与观察者模式"><a href="#发布订阅模式与观察者模式" class="headerlink" title="发布订阅模式与观察者模式"></a>发布订阅模式与观察者模式</h2><p>直到现在对于发布订阅模式与观察者模式，还是傻傻分不清。。。。。</p>
+<p>观察者模式英文名：Observer<br>发布订阅者模式英文名： Pub-Sub</p>
+<p>《Learning JavaScript Design Patterns》中的解释</p>
+<p>“While the Observer pattern is useful to be aware of, quite often in the Javascript world, we’ll find it commonly implemented using a variation known as the Publish/Subscribe pattern”</p>
+<p>虽然Oberser模式非常有用，但是在Javascript的世界中，它更多的以一种被称为发布订阅者模式的变种来实现</p>
+<p>两者的区别在于，发布/订阅模式在观察者模式的基础上，在目标和观察者之间增加了一个调度中心</p>
+<p><img src="/.com//observer-pub-sub.jpg" alt="observer-pub-sub"><br><strong>观察者模式</strong> 是由具体目标调度，比如当事件触发，Subject就会去调用观察者的方法，所以观察者模式的订阅者与发布者之间是存在依赖的。</p>
+<p><strong>发布/订阅模式</strong>  由统一调度中心调用，因此发布者和订阅者不需要知道对方的存在</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/29/EventEmitter/" data-id="ck9vgqhya0000otwjfvdkcshb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/29/Object-create-null/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Object.create(null)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/28/this/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">this</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript-%E5%8E%9F%E7%94%9F/">javascript 原生</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%86%B7%E7%9F%A5%E8%AF%86/">冷知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/">原理探究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E9%A2%98/">编程面试题</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/24/ionic%E5%85%A5%E9%97%A8/">ionic入门</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/06/%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84JSON%E6%A0%91%E7%BB%93%E6%9E%84%E7%9A%84%E8%BD%AC%E6%8D%A2/">一维数组JSON树结构的转换</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/29/Object-create-null/">Object.create(null)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/29/EventEmitter/">EventEmitter</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/28/this/">this</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 amilyang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

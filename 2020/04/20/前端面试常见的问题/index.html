@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>前端面试常见的问题 | amilyang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="css篇高度已知，三栏布局，左右宽度300，中间自适应&lt;div id&#x3D;&quot;main&quot;&gt;   &lt;div class&#x3D;&quot;left&quot;&gt;&lt;&#x2F;div&gt;   &lt;div class&#x3D;&quot;right&quot;&gt;&lt;&#x2F;div&gt;   &lt;div class&#x3D;&quot;center&quot;&gt;1111">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试常见的问题">
+<meta property="og:url" content="http://yoursite.com/2020/04/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="amilyang">
+<meta property="og:description" content="css篇高度已知，三栏布局，左右宽度300，中间自适应&lt;div id&#x3D;&quot;main&quot;&gt;   &lt;div class&#x3D;&quot;left&quot;&gt;&lt;&#x2F;div&gt;   &lt;div class&#x3D;&quot;right&quot;&gt;&lt;&#x2F;div&gt;   &lt;div class&#x3D;&quot;center&quot;&gt;1111">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-20T00:56:44.000Z">
+<meta property="article:modified_time" content="2020-05-07T09:42:26.094Z">
+<meta property="article:author" content="amilyang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="amilyang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">amilyang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">经验在于总结</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-前端面试常见的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-04-20T00:56:44.000Z" itemprop="datePublished">2020-04-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      前端面试常见的问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="css篇"><a href="#css篇" class="headerlink" title="css篇"></a>css篇</h1><h3 id="高度已知，三栏布局，左右宽度300，中间自适应"><a href="#高度已知，三栏布局，左右宽度300，中间自适应" class="headerlink" title="高度已知，三栏布局，左右宽度300，中间自适应"></a>高度已知，三栏布局，左右宽度300，中间自适应</h3><pre><code>&lt;div id=&quot;main&quot;&gt;
+  &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;right&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;center&quot;&gt;1111111111fffffffffff&lt;/div&gt;
+&lt;/div&gt;
+// 浮动布局 需要配合上面的html结构
+#main .left{
+  width: 300px;
+  float: left;
+  height: 100px;
+  background: red;
+}
+#main .right{
+  height: 100px;
+  width: 300px;
+  float:right;
+  background: #00BFFF;    
+}
+#main .center{
+height: 100px;
+background: #0000FF;
+}
+// 绝对定位布局
+#main .left{
+  width: 300px;
+  position: absolute;
+  left: 0;
+  height: 100px;
+  background: red;
+}
+#main .right{
+  height: 100px;
+  width: 300px;
+  position: absolute;
+  right: 0;
+  background: #00BFFF;    
+}
+#main .center{
+  position: absolute;  
+  left: 300px;
+  right: 300px;
+  height: 100px;
+  background: #0000FF;
+}
+// flex布局
+#main{
+  display: flex;
+}
+#main .left{
+  width: 300px;
+  height: 100px;
+  background: red;
+}
+#main .right{
+  height: 100px;
+  width: 300px;
+  background: #00BFFF;    
+}
+#main .center{
+  flex: 1;
+  height: 100px;
+  background: #0000FF;
+}
+
+// table 布局
+#main{
+  width: 100%;
+  display: table
+}  
+#main &gt; div{
+  display: table-cell
+}
+#main .left{
+  width: 300px;
+  height: 100px;
+  background: red;
+}
+#main .right{
+  height: 100px;
+  width: 300px;
+  background: #00BFFF;    
+}
+#main .center{
+  height: 100px;
+  background: #0000FF;
+}</code></pre><h2 id="对于MVVM的理解？"><a href="#对于MVVM的理解？" class="headerlink" title="对于MVVM的理解？"></a>对于MVVM的理解？</h2><p><strong>MVVM</strong>是Model-View-ViewModel的缩写</p>
+<p><strong>Model</strong> 代表数据模型，数据和业务逻辑都在Model层中定义</p>
+<p><strong>View</strong> 代表UI视图， 负责将数据模型转化成UI展现出来</p>
+<p><strong>ViewModel</strong><br>负责监听数据模型的改变和控制视图行为、处理用户交互，简单理解就是一个同步<strong>View</strong>和<strong>Model</strong>的对象，连接 <strong>Model</strong>和<strong>View</strong> 。</p>
+<p>在MVVM架构下，<strong>View</strong>和<strong>Model</strong>之间并无直接联系，而是通过<strong>ViewModel</strong>进行交互<strong>Model</strong>和<strong>ViewModel</strong>之间的交互是双向的，因此<strong>View</strong>数据的的变化会同步到<strong>Model</strong>中，而<strong>Model</strong>数据的变化也会立即反应到<strong>View</strong>上。</p>
+<p><strong>ViewModel</strong>通过数据双向绑定把<strong>View</strong>层和<strong>Model</strong>连接了起来，而<strong>View</strong>和<strong>Model</strong>之间的同步工作完全是自动的，无需人为干涉，因为开发者只需关注业务逻辑，不需要手动操作dom，不需要关注数据状态的同步问题，负责的数据状态维护完全由MVVM来统一管理<br><strong>View</strong></p>
+<h2 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h2><p>1、<strong>beforeCreate</strong>  (创建前)  此阶段为实例初始化之后，这时的数据观测和事件机制都未形成，不能获得DOM节点。<br>2、<strong>created</strong>  (创建后)  此阶段完成数据观测，属性和方法的运算，初始化事件， 仍然不能获得DOM节点。<br>3、<strong>beforeMount</strong> （载入前）在挂载之前被调用，相关的render 函数首次被调用，data里面的数据和模版生成html，已经完成模版编译，vue挂载的根结点已经创建<br>4、<strong>mounted</strong> （载入后）el 被创建的vm.$el 替换，并挂载到实例上去之后被调用。用上面编辑好的html替换el属性指向的dom对象。完成模版中的html渲染，此过程中进行ajax交互。<br>5、<strong>beforeUpdate</strong>  （更新前）这个阶段Vue遵循数据驱动DOM的原则；beforeUpdate函数在数据更新后虽然没有立即更新数据，但是DOM中的数据会改变，这j是vue双向数据绑定的作用。<br>6、<strong>Updated</strong>  （更新后）在这一阶段DOM会和更新过的内容同步<br>7、<strong>beforeDestroy</strong>  （销毁前）在上一个阶段vue已经成功的通过数据驱动dom更新，当我们不再需要vue操作dom时，就需要销毁vue，也就是消除vue实例与dom的关联，调用destroy方法可以销毁当前组件。在销毁前，会出发beforeDestroy钩子函数, 实例仍然完全可以用。<br>8、<strong>destroy</strong>  （销毁后）在实例销毁之后调用。调用后，所有的事件监听器会被移除，所有的i子实例也会被销毁，该钩子在服务器端渲染期间不被调用</p>
+<h2 id="组件传值有哪些？"><a href="#组件传值有哪些？" class="headerlink" title="组件传值有哪些？"></a>组件传值有哪些？</h2><ul>
+<li>父组件向子组件传值， 子组件通过props属性接受数据；</li>
+<li>子组件向父组件传值， 使用emit方法传递参数</li>
+<li>非父子组件的传值，如兄弟组件传值，项目较小时，可以使用eventBus，创建一个事件中心，相当于中转站，可以用来传递事件和接受事件。 项目较大时可以用vuex</li>
+</ul>
+<h2 id="Vue的路由实现：-hash模式-和-history模式"><a href="#Vue的路由实现：-hash模式-和-history模式" class="headerlink" title="Vue的路由实现： hash模式 和 history模式"></a>Vue的路由实现： hash模式 和 history模式</h2><p><strong>hash模式：</strong>  在浏览器中符号“#”， #以及#后面的字符串称之为hash，用window.location.hash读取；<br>特点： hash虽然在URL中，但不被包括在HTTP请求中， 用来指导浏览器动作，对服务端安全无用，hash不会重新加载页面。<br>hash模式下，仅 hash符号之前的内容会被包含在请求中，如 http:<a href="http://www.xxx.com" target="_blank" rel="noopener">www.xxx.com</a> ，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回404错误<br><strong>history模式：</strong> history 采用HTML5的新特性，且提供了两个新方法：pushState(),  replaceState()可以对浏览器历史记录栈进行修改， 以及popState事件的监听到状态变更。history模式下，前端的URL必须和实际向后端发起请求的URL一致，如 <a href="http://www.xxxx.com/items/id" target="_blank" rel="noopener">http://www.xxxx.com/items/id</a> 。后端如果缺少对/item/id的路由处理，将返回404错误。</p>
+<p>__Vue官网里如此描述： __ “history这种模式要玩好，还需要后台配置支持”，所以，你要在服务端增加一个覆盖所有情况的候选资源： 如果URL匹配不到任何静态资源，则应该返回同一个index.html页面。这个页面就是app依赖的页面</p>
+<h2 id="Vuex是什么？-怎么使用？-哪种场景使用它"><a href="#Vuex是什么？-怎么使用？-哪种场景使用它" class="headerlink" title="Vuex是什么？ 怎么使用？ 哪种场景使用它"></a>Vuex是什么？ 怎么使用？ 哪种场景使用它</h2><p>Vuex是一个专为vue.js应用开发的 <strong>状态管理模式</strong> 。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+<p>只用来读取的状态集中放在store中，改变状态的方式提交mutations，这个是同步事务；异步逻辑应该封装在action中， 在main.js中引入store注入<br>state<br>Vuex 使用单一状态树,即每个应用将仅仅包含一个store 实例，但单一状态树和模块化并不冲突。存放的数据状态，不可以直接修改里面的数据。<br>mutations<br>mutations定义的方法动态修改Vuex 的 store 中的状态或数据。<br>getters<br>类似vue的计算属性，主要用来过滤一些数据。<br>action<br>actions可以理解为通过将mutations里面处里数据的方法变成可异步的处理数据的方法，简单的说就是异步操作数据。view 层通过 store.dispath 来分发 action。</p>
+<pre><code>const store = new Vuex.Store({ //store实例
+      state: {
+         count: 0
+             },
+      mutations: {                
+         increment (state) {
+          state.count++
+         }
+          },
+      actions: { 
+         increment (context) {
+          context.commit(&apos;increment&apos;)
+   }
+ }
+})</code></pre><p>modules<br>项目特别复杂的时候，可以让每一个模块拥有自己的state、mutation、action、getters,使得结构非常清晰，方便管理。</p>
+<pre><code>const moduleA = {
+  state: { ... },
+  mutations: { ... },
+  actions: { ... },
+  getters: { ... }
+ }
+const moduleB = {
+  state: { ... },
+  mutations: { ... },
+  actions: { ... }
+ }
+
+const store = new Vuex.Store({
+  modules: {
+    a: moduleA,
+    b: moduleB
+})</code></pre><p>大型单页面应用：组件件的状态、音乐播放、登录状态、加入购物车</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98/" data-id="ck97v84w70004y8wj61gc027b" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/20/%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96%E3%80%81%E5%8E%BB%E9%87%8D%E3%80%81%E6%8E%92%E5%BA%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数组扁平化、去重、排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/19/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo 入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript-%E5%8E%9F%E7%94%9F/">javascript 原生</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%86%B7%E7%9F%A5%E8%AF%86/">冷知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/">原理探究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E9%A2%98/">编程面试题</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/24/ionic%E5%85%A5%E9%97%A8/">ionic入门</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/06/%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84JSON%E6%A0%91%E7%BB%93%E6%9E%84%E7%9A%84%E8%BD%AC%E6%8D%A2/">一维数组JSON树结构的转换</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/29/Object-create-null/">Object.create(null)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/29/EventEmitter/">EventEmitter</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/28/this/">this</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 amilyang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

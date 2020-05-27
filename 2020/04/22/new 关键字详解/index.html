@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>new 关键字详解 | amilyang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="new 运算符是用来实例化一个类，从而在内存中分配一个实力对象。 那为什么要通过new来产生对象呢？ 例子1234567891011121314151617181920function Person(name) &amp;#123;  this.name &#x3D; name&amp;#125;Person.age &#x3D; &#39;18&#39;Person.prototype.getName &amp;#x3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="new 关键字详解">
+<meta property="og:url" content="http://yoursite.com/2020/04/22/new%20%E5%85%B3%E9%94%AE%E5%AD%97%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="amilyang">
+<meta property="og:description" content="new 运算符是用来实例化一个类，从而在内存中分配一个实力对象。 那为什么要通过new来产生对象呢？ 例子1234567891011121314151617181920function Person(name) &amp;#123;  this.name &#x3D; name&amp;#125;Person.age &#x3D; &#39;18&#39;Person.prototype.getName &amp;#x3">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-22T03:24:59.000Z">
+<meta property="article:modified_time" content="2020-04-22T10:59:56.028Z">
+<meta property="article:author" content="amilyang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="amilyang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">amilyang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">经验在于总结</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-new 关键字详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/22/new%20%E5%85%B3%E9%94%AE%E5%AD%97%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time datetime="2020-04-22T03:24:59.000Z" itemprop="datePublished">2020-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/">原理探究</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      new 关键字详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>new 运算符是用来实例化一个类，从而在内存中分配一个实力对象。 那为什么要通过new来产生对象呢？</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function Person(name) &#123;</span><br><span class="line">  this.name &#x3D; name</span><br><span class="line">&#125;</span><br><span class="line">Person.age &#x3D; &#39;18&#39;</span><br><span class="line">Person.prototype.getName &#x3D; function() &#123;</span><br><span class="line">  console.log(&#39;my name is &#39; + this.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var student &#x3D; new Person(&#39;xiaoming&#39;)</span><br><span class="line">console.log(</span><br><span class="line">  student.name, &#x2F;&#x2F; xiaoming </span><br><span class="line">  student.age &#x2F;&#x2F; undefined</span><br><span class="line">)</span><br><span class="line">student.getName() &#x2F;&#x2F; my name is xiaoming</span><br><span class="line"></span><br><span class="line">console.log(</span><br><span class="line">  Person.name, &#x2F;&#x2F; Person</span><br><span class="line">  Person.age  &#x2F;&#x2F;18</span><br><span class="line">)</span><br><span class="line">Person.getName() &#x2F;&#x2F;TypeError: Person.getName is not a function</span><br></pre></td></tr></table></figure>
+<h2 id="代码解读"><a href="#代码解读" class="headerlink" title="代码解读"></a>代码解读</h2><p>1-3行 创建了函数Person，并为它定义了属性name， name的值是函数被执行时的形参。<br>第4行 在Person对象（Person本身也是一个函数对象）上定义了一个静态属性：age，并赋值 18<br>5-7行 在Person函数的原型对象上prototype上定义了一个getName()方法, getName方法输出了this的name值<br>第9行 通过new关键字创建了一个新对象student<br>10-14行 student对象尝试访问name和age属性，并调用getName方法<br>16-20行 Person对象尝试访问name和color属性</p>
+<h2 id="重点解析"><a href="#重点解析" class="headerlink" title="重点解析"></a>重点解析</h2><p>第9行代码是关键：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var student &#x3D; new Person(&#39;xiaoming&#39;)</span><br></pre></td></tr></table></figure>
+<p>JS引擎执行这句话时，在内部做了很多工作，下面大概模拟一下工作流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new Person(&#39;xiaoming&#39;)  &#x3D; &#123;</span><br><span class="line">  var obj &#x3D; &#123;&#125;;</span><br><span class="line">  obj.__proto__ &#x3D; Person.prototype;</span><br><span class="line">  var result &#x3D; Person.call(obj, &#39;xiaoming&#39;)</span><br><span class="line">  return typeof result &#x3D;&#x3D;&#x3D; &#39;object&#39; ? result : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建空对象obj</li>
+<li>把obj的 <strong>obj</strong> 指向Person的原型对象prototyoe, 此时便建立了obj对象的原型链：<em>obj-&gt;Person.prototype-&gt;Object.prototype-&gt;Null</em><br> [可参阅 JS原型和原型链]</li>
+<li>在obj对象的执行环境调用Person函数并传递参数“xiaoming”， 相当于 var  result = obj.Person(‘xiaoming’).<br> 这句话执行完之后，obj便产生了属性name并赋值为“xiaoming”</li>
+<li>判断第3步的返回值，如果无返回值或返回值不是一个对象，则将obj作为新对象返回， 否则将返回值作为新对象返回。</li>
+</ol>
+<p>理解new的运行机制后，我们知道student其实就是过程4的返回值，因此我们对student对象的认知就多了一些</p>
+<ul>
+<li><p>student的原型l链是 student -&gt;Person.prototype-&gt;Object.prototype-&gt;null *</p>
+</li>
+<li><p>student上新增了一个属性name*</p>
+<p>分析完了student的产生过程，我们再看看输出结果：<br>student.name -&gt; 再过程3中，obj产生了name属性。 student.name 就是这个理的obj.name<br>sutdent.age -&gt; student回先查找自身的age属性，没有找到便会沿着原型链查找，在上述例子中，我们仅在Proson对象上定义了age，并没有在其他原型链上定义，因此找不到。<br>student.getName -&gt;studen会现在自身查找getName方法，没找到会沿着原型链查找，在上述的例子中，我们在Person的原型链上定义了getName，因此在原型链上找到了getName</p>
+<p>另外getName方法还访问了this.name,  这里的this指的是其他调用者obj，因此输出的是obj.name的值</p>
+<p>对于Person来说，它本身也是一个对象，因此，它在访问属性和方法时也遵守上述查找规则所以：<br>Person.age -&gt; 18<br>Person.name -&gt; “Person”, Person先查找自身的name，找到了name，<br><em>注意：这个name不是我们定义的name，而是函数对象内置的属性。</em></p>
+<p>一半情况下，函数对象在产生时会内置name属性并将函数名作为赋值（仅函数对象）</p>
+<p>Person.getName -&gt; 在自身没找到getName方法，也会沿着原型链查找，那Person的原型链是什么呢？<br><em>Person-&gt;Function.prototype-&gt;Object.prototype-null</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">console.log(Person.__proto__) &#x2F;&#x2F;[Function]</span><br><span class="line">console.log(Person.__proto__ &#x3D;&#x3D;&#x3D; Function.prototype) &#x2F;&#x2F;true</span><br><span class="line">console.log(Function.prototype.__proto__ &#x3D;&#x3D;&#x3D; Object.prototype) &#x2F;&#x2F;true</span><br><span class="line">console.log(Object.prototype.__proto__) &#x2F;&#x2F;null</span><br></pre></td></tr></table></figure>
+<p>因此Person的原型链上没有定义getName方法！</p>
+<h2 id="new-存在的意义"><a href="#new-存在的意义" class="headerlink" title="new 存在的意义"></a>new 存在的意义</h2><p>通过上面的分析，我们发现了student继承了Person的部分属性，因此我们可以简单的理解：Person和student是继承关系。<br>另一方面student是通过new产生的对象，那么student到底是不是Person的实例对象呢？<br>我们来了解一下JS是如何来定义“实例对象”的</p>
+<p>  a instanceof b</p>
+</li>
+</ul>
+<p>如果为true，就证明A是B的实例对象，我们来判断一下student和Person</p>
+<pre><code>console.log(student instanceof Person) // true</code></pre><p> 从执行结果看：cat确实是Animal实例，要想证实这个结果，我们再来了解一下JS中instanceof的判断规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var L &#x3D; A.__proto__;</span><br><span class="line">var R &#x3D; B.prototype;</span><br><span class="line">if(L&#x3D;&#x3D;&#x3D;R)&#123;</span><br><span class="line">    return true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在new的执行过程（2）中，cat的<strong>proto</strong>指向了Animal的prototype，所以cat和Animal符合instanceof的判断结果。因此，我们认为：cat是Animal的实例对象。</p>
+<h2 id="javascript-使用new关键字的区别"><a href="#javascript-使用new关键字的区别" class="headerlink" title="javascript 使用new关键字的区别"></a>javascript 使用new关键字的区别</h2><p>第一种方式使用new关键字以原型的方式将user对象暴露到window对象中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;one</span><br><span class="line">var user &#x3D; function()&#123;</span><br><span class="line">  this.name&#x3D;&quot;&quot;;</span><br><span class="line">  this.id&#x3D;&quot;&quot;;</span><br><span class="line">&#125;;</span><br><span class="line">user.add &#x3D; function()&#123;</span><br><span class="line">  console.log(&quot;add&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">user.delete &#x3D; function()&#123;</span><br><span class="line">  console.log(&quot;delete&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">user.prototype &#x3D; user;</span><br><span class="line">window.user &#x3D; new user();</span><br></pre></td></tr></table></figure>
+<p>第二种方式不使用new关键字直接将user对象暴露到window对象中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;two</span><br><span class="line">var user &#x3D; &#123;</span><br><span class="line">  name:&quot;&quot;,</span><br><span class="line">  id:&quot;&quot;</span><br><span class="line">&#125;;</span><br><span class="line">user.add &#x3D; function()&#123;</span><br><span class="line">  console.log(&quot;add&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">user.delete &#x3D; function()&#123;</span><br><span class="line">  console.log(&quot;delete&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">window.user &#x3D; user;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick&#x3D;&quot;user.add()&quot;&gt;增加&lt;&#x2F;button&gt;</span><br><span class="line">&lt;button onclick&#x3D;&quot;user.delete()&quot;&gt;删除&lt;&#x2F;button&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="手动实现"><a href="#手动实现" class="headerlink" title="手动实现"></a>手动实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">function _new(fn) &#123;</span><br><span class="line">  var Obj &#x3D; &#123;&#125;</span><br><span class="line">  Obj.__proto__ &#x3D; fn.prototype</span><br><span class="line">  &#x2F;&#x2F; 将arguments对象转为数组</span><br><span class="line">  var args &#x3D; [].slice.call(arguments)</span><br><span class="line">  &#x2F;&#x2F; 去除构造函数</span><br><span class="line">  args.shift()</span><br><span class="line">  &#x2F;&#x2F; 执行构造函数并改变this指向</span><br><span class="line">  var result &#x3D; fn.apply(Obj, args)</span><br><span class="line">  if(Object.prototype.toString.call(result) &#x3D;&#x3D;&#x3D; &#39;[object Object]&#39;)&#123;</span><br><span class="line">    return result</span><br><span class="line">  &#125;else &#123;</span><br><span class="line">    return Obj</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 无返回</span><br><span class="line">function Person1(name) &#123;</span><br><span class="line">  this.name &#x3D; name</span><br><span class="line">  this.sex &#x3D; &#39;boy&#39;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 返回一个对象</span><br><span class="line">function Person2() &#123;</span><br><span class="line">  this.name &#x3D; &#39;xiaohong&#39;</span><br><span class="line">  return &#123;</span><br><span class="line">    name: &#39;daming&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 返回非对象</span><br><span class="line">function Person3() &#123;</span><br><span class="line">  this.name &#x3D; &#39;xiaohong&#39;</span><br><span class="line">  return 1000</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var student1 &#x3D; _new(Person1,&#39;xiaoming&#39;)</span><br><span class="line">console.log(student1.name) &#x2F;&#x2F; xiaoming</span><br><span class="line">console.log(student1.sex)&#x2F;&#x2F; boy</span><br><span class="line"></span><br><span class="line">var student2 &#x3D; _new(Person2)</span><br><span class="line">console.log(student2.name) &#x2F;&#x2F;daming</span><br><span class="line"></span><br><span class="line">var student3 &#x3D; _new(Person3)</span><br><span class="line">console.log(student3.name) &#x2F;&#x2F;xiaohong</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在javascript中，通过new可以产生原对象的一个实例对象，而这个实例对象继承了原对象的属性和方法。因此。new存在的意义在于它实现了js中的继承（inherit），而不仅仅是实例化了一个对象</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/22/new%20%E5%85%B3%E9%94%AE%E5%AD%97%E8%AF%A6%E8%A7%A3/" data-id="ck9as3f270001yiwj5x0hf2cu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/22/%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E3%80%81%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E3%80%81%E9%97%AD%E5%8C%85/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          作用域、作用域链、立即执行函数、闭包
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/21/%E9%81%87%E5%88%B0%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">遇到的面试题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript-%E5%8E%9F%E7%94%9F/">javascript 原生</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%86%B7%E7%9F%A5%E8%AF%86/">冷知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/">原理探究</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E9%A2%98/">编程面试题</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/24/ionic%E5%85%A5%E9%97%A8/">ionic入门</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/06/%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84JSON%E6%A0%91%E7%BB%93%E6%9E%84%E7%9A%84%E8%BD%AC%E6%8D%A2/">一维数组JSON树结构的转换</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/29/Object-create-null/">Object.create(null)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/29/EventEmitter/">EventEmitter</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/28/this/">this</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 amilyang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
